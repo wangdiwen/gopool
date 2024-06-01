@@ -10,7 +10,7 @@ import (
 // GoPool represents a pool of workers.
 type GoPool interface {
 	// AddTask adds a task to the pool.
-	AddTask(t task)
+	AddTask(t Task)
 	// Wait waits for all tasks to be dispatched and completed.
 	Wait()
 	// Release releases the pool and all its workers.
@@ -25,8 +25,9 @@ type GoPool interface {
 
 // task represents a function that will be executed by a worker.
 // It returns a result and an error.
-type task func() (interface{}, error)
-type Task task
+type Task func() (interface{}, error)
+
+// type Task task
 
 // goPool represents a pool of workers.
 type goPool struct {
@@ -36,7 +37,7 @@ type goPool struct {
 	// Set by WithMinWorkers(), used to adjust the number of workers. Default equals to maxWorkers.
 	minWorkers int
 	// tasks are added to this channel first, then dispatched to workers. Default buffer size is 1 million.
-	taskQueue chan task
+	taskQueue chan Task
 	// Set by WithTaskQueueSize(), used to set the size of the task queue. Default is 1e6.
 	taskQueueSize int
 	// Set by WithRetryCount(), used to retry a task when it fails. Default is 0.

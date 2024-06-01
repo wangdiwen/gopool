@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/daniel-hutao/spinlock"
-	"github.com/devchat-ai/gopool"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"github.com/wangdiwen/gopool"
 )
 
 var _ = Describe("Gopool", func() {

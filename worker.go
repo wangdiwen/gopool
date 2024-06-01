@@ -7,12 +7,12 @@ import (
 
 // worker represents a worker in the pool.
 type worker struct {
-	taskQueue chan task
+	taskQueue chan Task
 }
 
 func newWorker() *worker {
 	return &worker{
-		taskQueue: make(chan task, 1),
+		taskQueue: make(chan Task, 1),
 	}
 }
 
@@ -33,7 +33,7 @@ func (w *worker) start(pool *goPool, workerIndex int) {
 
 // executeTask executes a task and returns the result and error.
 // If the task fails, it will be retried according to the retryCount of the pool.
-func (w *worker) executeTask(t task, pool *goPool) (result interface{}, err error) {
+func (w *worker) executeTask(t Task, pool *goPool) (result interface{}, err error) {
 	for i := 0; i <= pool.retryCount; i++ {
 		if pool.timeout > 0 {
 			result, err = w.executeTaskWithTimeout(t, pool)
@@ -48,7 +48,7 @@ func (w *worker) executeTask(t task, pool *goPool) (result interface{}, err erro
 }
 
 // executeTaskWithTimeout executes a task with a timeout and returns the result and error.
-func (w *worker) executeTaskWithTimeout(t task, pool *goPool) (result interface{}, err error) {
+func (w *worker) executeTaskWithTimeout(t Task, pool *goPool) (result interface{}, err error) {
 	// Create a context with timeout
 	ctx, cancel := context.WithTimeout(context.Background(), pool.timeout)
 	defer cancel()
@@ -81,7 +81,7 @@ func (w *worker) executeTaskWithTimeout(t task, pool *goPool) (result interface{
 	}
 }
 
-func (w *worker) executeTaskWithoutTimeout(t task, pool *goPool) (result interface{}, err error) {
+func (w *worker) executeTaskWithoutTimeout(t Task, pool *goPool) (result interface{}, err error) {
 	// If timeout is not set or is zero, just run the task
 	return t()
 }
