@@ -27,8 +27,6 @@ type GoPool interface {
 // It returns a result and an error.
 type Task func() (interface{}, error)
 
-// type Task task
-
 // goPool represents a pool of workers.
 type goPool struct {
 	workers     []*worker
@@ -81,7 +79,7 @@ func NewGoPool(maxWorkers int, opts ...Option) GoPool {
 		opt(pool)
 	}
 
-	pool.taskQueue = make(chan task, pool.taskQueueSize)
+	pool.taskQueue = make(chan Task, pool.taskQueueSize)
 	pool.workers = make([]*worker, pool.minWorkers)
 	pool.workerStack = make([]int, pool.minWorkers)
 
@@ -101,7 +99,7 @@ func NewGoPool(maxWorkers int, opts ...Option) GoPool {
 }
 
 // AddTask adds a task to the pool.
-func (p *goPool) AddTask(t task) {
+func (p *goPool) AddTask(t Task) {
 	p.taskQueue <- t
 }
 
