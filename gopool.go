@@ -26,6 +26,7 @@ type GoPool interface {
 // task represents a function that will be executed by a worker.
 // It returns a result and an error.
 type task func() (interface{}, error)
+type Task task
 
 // goPool represents a pool of workers.
 type goPool struct {
