@@ -1,4 +1,4 @@
-module github.com/devchat-ai/gopool
+module github.com/wangdiwen/gopool
 
 go 1.20
 
