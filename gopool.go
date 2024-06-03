@@ -34,9 +34,9 @@ type goPool struct {
 	maxWorkers  int
 	// Set by WithMinWorkers(), used to adjust the number of workers. Default equals to maxWorkers.
 	minWorkers int
-	// tasks are added to this channel first, then dispatched to workers. Default buffer size is 1 million.
+	// tasks are added to this channel first, then dispatched to workers. Default buffer size is 10000.
 	taskQueue chan Task
-	// Set by WithTaskQueueSize(), used to set the size of the task queue. Default is 1e6.
+	// Set by WithTaskQueueSize(), used to set the size of the task queue. Default is 10000.
 	taskQueueSize int
 	// Set by WithRetryCount(), used to retry a task when it fails. Default is 0.
 	retryCount int
@@ -66,7 +66,7 @@ func NewGoPool(maxWorkers int, opts ...Option) GoPool {
 		workers:        nil,
 		workerStack:    nil,
 		taskQueue:      nil,
-		taskQueueSize:  1e6,
+		taskQueueSize:  10000,
 		retryCount:     0,
 		lock:           new(sync.Mutex),
 		timeout:        0,
